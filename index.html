@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asitha Gem - Premium Sapphires, Spinels & Zircons</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS CSS for scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts: Cinzel for Main Title, Playfair for Headings, Inter for Body -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#050914',    // Very deep navy/black
+                            primary: '#0f172a', // Slate 900
+                            accent: '#eab308',  // Rich Gold
+                            light: '#f8fafc',   // Off-white
+                            card: '#0a0f1c',    // Slightly lighter than dark for cards
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        display: ['Cinzel', 'serif'], // For the massive hero title
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #050914; color: #e2e8f0; overflow-x: hidden; }
+        
+        /* Hero Section Cinematic Background */
+        .hero-bg {
+            background-image: radial-gradient(circle at center, rgba(5, 9, 20, 0.3) 0%, rgba(5, 9, 20, 1) 90%), url('https://images.unsplash.com/photo-1615594892463-54602ab65859?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Gold Gradient Text */
+        .text-gradient-gold {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0px 4px 20px rgba(170, 119, 28, 0.2);
+        }
+        
+        /* Luxury Card Hover Effects */
+        .luxury-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s ease;
+        }
+        .luxury-card:hover {
+            border-color: rgba(234, 179, 8, 0.5); /* Gold border on hover */
+            box-shadow: 0 10px 30px -10px rgba(234, 179, 8, 0.15);
+            transform: translateY(-5px);
+        }
+        .card-img {
+            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .luxury-card:hover .card-img {
+            transform: scale(1.1);
+        }
+        .card-overlay {
+            background: linear-gradient(to top, rgba(5,9,20,1) 0%, rgba(5,9,20,0.6) 50%, rgba(5,9,20,0) 100%);
+        }
+
+        /* View transition styles for SPA */
+        .view-section {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .view-hidden {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            visibility: hidden;
+            transform: scale(0.98);
+        }
+        .view-active {
+            opacity: 1;
+            position: relative;
+            visibility: visible;
+            transform: scale(1);
+        }
+        
+        /* Elegant Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050914; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #eab308; }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen relative">
+
+    <nav class="fixed w-full z-50 transition-all duration-500" id="navbar" style="background-color: transparent;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="navigateHome()">
+                    <span class="font-display text-2xl font-bold tracking-[0.15em] text-white">
+                        <i class="fa-regular fa-gem text-brand-accent mr-2 text-xl"></i>
+                        ASITHA <span class="text-brand-accent font-light">GEM</span>
+                    </span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-10 items-center" id="desktop-menu">
+                    <a href="#home" onclick="navigateHome()" class="text-gray-300 hover:text-brand-accent transition-colors text-sm font-medium tracking-widest uppercase">Home</a>
+                    <a href="#about" onclick="navigateHome()" class="text-gray-300 hover:text-brand-accent transition-colors text-sm font-medium tracking-widest uppercase">About</a>
+                    <a href="#collections" onclick="navigateHome()" class="text-gray-300 hover:text-brand-accent transition-colors text-sm font-medium tracking-widest uppercase">Collections</a>
+                    <a href="#contact" onclick="navigateHome()" class="border border-brand-accent text-brand-accent px-6 py-2 hover:bg-brand-accent hover:text-brand-dark transition-all duration-300 text-sm font-bold tracking-widest uppercase">Inquire</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white hover:text-brand-accent focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark/95 backdrop-blur-md border-t border-white/5 absolute w-full">
+            <div class="px-4 py-6 space-y-4">
+                <a href="#home" onclick="navigateHome()" class="block text-gray-300 hover:text-brand-accent text-lg tracking-widest uppercase font-medium">Home</a>
+                <a href="#about" onclick="navigateHome()" class="block text-gray-300 hover:text-brand-accent text-lg tracking-widest uppercase font-medium">About</a>
+                <a href="#collections" onclick="navigateHome()" class="block text-gray-300 hover:text-brand-accent text-lg tracking-widest uppercase font-medium">Collections</a>
+                <a href="#contact" onclick="navigateHome()" class="block text-brand-accent text-lg tracking-widest uppercase font-bold mt-4">Inquire Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="main-view" class="view-section view-active w-full">
+        
+        <section id="home" class="hero-bg h-screen flex items-center justify-center relative">
+            <div class="absolute inset-0 bg-brand-dark/40"></div> <!-- Subtle darkening overlay -->
+            
+            <div class="text-center px-4 w-full z-10" data-aos="zoom-out" data-aos-duration="1500">
+                <p class="text-gray-300 tracking-[0.4em] uppercase text-xs md:text-sm font-semibold mb-6 flex items-center justify-center gap-4">
+                    <span class="w-12 h-[1px] bg-brand-accent"></span>
+                    Direct from Ceylon Mines
+                    <span class="w-12 h-[1px] bg-brand-accent"></span>
+                </p>
+                
+                <!-- HUGE TITLE HERE -->
+                <h1 class="font-display text-7xl md:text-8xl lg:text-[10rem] font-bold text-gradient-gold leading-none mb-6 drop-shadow-2xl">
+                    ASITHA<br>GEM
+                </h1>
+                
+                <p class="text-lg md:text-2xl text-white font-serif italic mb-12 drop-shadow-md">
+                    Premium Sapphires, Spinels & Zircons
+                </p>
+                
+                <a href="#collections" class="inline-flex items-center gap-3 border-2 border-brand-accent text-brand-accent px-8 py-4 hover:bg-brand-accent hover:text-brand-dark transition-all duration-300 tracking-[0.2em] uppercase font-bold text-sm">
+                    Explore Inventory <i class="fa-solid fa-gem"></i>
+                </a>
+            </div>
+            
+            <!-- Scroll indicator -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <a href="#about" class="text-white/50 hover:text-brand-accent transition-colors">
+                    <i class="fa-solid fa-chevron-down text-2xl"></i>
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="py-32 bg-brand-dark relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row items-center gap-20">
+                    <div class="lg:w-1/2" data-aos="fade-right" data-aos-duration="1200">
+                        <div class="relative p-3 border border-white/10 before:absolute before:inset-0 before:border before:border-brand-accent/50 before:-translate-x-4 before:-translate-y-4 before:-z-10">
+                            <!-- High quality faceted gem layout photo -->
+                            <img src="https://images.unsplash.com/photo-1598560917505-59a3ad559071?q=80&w=800&auto=format&fit=crop" alt="Premium Loose Gemstones" class="w-full object-cover h-[600px] brightness-90">
+                        </div>
+                    </div>
+                    
+                    <div class="lg:w-1/2" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
+                        <div class="flex items-center gap-4 mb-6">
+                            <span class="w-10 h-[1px] bg-brand-accent"></span>
+                            <h4 class="text-brand-accent tracking-[0.2em] uppercase text-sm font-semibold">Our Legacy</h4>
+                        </div>
+                        <h2 class="text-4xl md:text-6xl font-serif text-white mb-8 leading-tight">Crafting Earth's <br><span class="text-gradient-gold">Finest Treasures</span></h2>
+                        
+                        <p class="text-gray-400 mb-6 leading-relaxed font-light text-lg">
+                            Located in the world-renowned gem center of Sri Lanka, <strong>Asitha Gem</strong> bridges the gap between raw natural beauty and high-end jewelry craftsmanship.
+                        </p>
+                        <p class="text-gray-400 mb-10 leading-relaxed font-light text-lg">
+                            We specialize in the finest Ceylon Sapphires, vibrant Spinels, and brilliant Zircons. Whether you are seeking precision-faceted masterpieces ready for luxury settings, or unheated rough stones for your own cutting, we guarantee unparalleled quality and ethical sourcing.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-8 border-t border-white/10 pt-8">
+                            <div>
+                                <h5 class="text-white font-display text-xl mb-2 tracking-wider">Ethical Sourcing</h5>
+                                <p class="text-sm text-gray-500 font-light">Directly from local Sri Lankan mines.</p>
+                            </div>
+                            <div>
+                                <h5 class="text-white font-display text-xl mb-2 tracking-wider">Master Cutting</h5>
+                                <p class="text-sm text-gray-500 font-light">Perfect symmetry and brilliant polish.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="collections" class="py-32 bg-brand-primary border-t border-white/5 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-20" data-aos="fade-up">
+                    <h4 class="text-brand-accent tracking-[0.2em] uppercase mb-4 text-sm font-semibold">Our Portfolio</h4>
+                    <h2 class="text-5xl font-serif text-white mb-6">Exquisite Collections</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto font-light text-lg">Explore our categories of meticulously selected gemstones, available in both rough and faceted forms.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Sapphire Card -->
+                    <div class="bg-brand-card luxury-card cursor-pointer group" onclick="openCollection('sapphire', 'Ceylon Sapphires', 'The Crown Jewel of Sri Lanka')" data-aos="fade-up" data-aos-delay="100">
+                        <div class="h-96 relative">
+                            <!-- PERFECT BLUE SAPPHIRE PHOTO -->
+                            <img src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=800&auto=format&fit=crop" alt="Blue Sapphire" class="w-full h-full object-cover card-img brightness-75 group-hover:brightness-100">
+                            <div class="absolute inset-0 card-overlay"></div>
+                            <div class="absolute bottom-8 left-8 right-8 text-center">
+                                <h3 class="text-3xl font-display text-white mb-2 tracking-wider">Sapphires</h3>
+                                <p class="text-brand-accent text-xs tracking-[0.2em] uppercase mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0">Blue, Yellow, Padparadscha</p>
+                                <div class="w-8 h-[1px] bg-brand-accent mx-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spinel Card -->
+                    <div class="bg-brand-card luxury-card cursor-pointer group" onclick="openCollection('spinel', 'Vibrant Spinels', 'Untreated Natural Brilliance')" data-aos="fade-up" data-aos-delay="200">
+                        <div class="h-96 relative">
+                            <!-- PERFECT RED/PINK SPINEL PHOTO -->
+                            <img src="https://images.unsplash.com/photo-1601821765780-754fa98637c1?q=80&w=800&auto=format&fit=crop" alt="Red Spinel" class="w-full h-full object-cover card-img brightness-75 group-hover:brightness-100">
+                            <div class="absolute inset-0 card-overlay"></div>
+                            <div class="absolute bottom-8 left-8 right-8 text-center">
+                                <h3 class="text-3xl font-display text-white mb-2 tracking-wider">Spinels</h3>
+                                <p class="text-brand-accent text-xs tracking-[0.2em] uppercase mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0">Red, Pink, Mahenge</p>
+                                <div class="w-8 h-[1px] bg-brand-accent mx-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zircon Card -->
+                    <div class="bg-brand-card luxury-card cursor-pointer group" onclick="openCollection('zircon', 'Brilliant Zircons', 'Exceptional Fire & Luster')" data-aos="fade-up" data-aos-delay="300">
+                        <div class="h-96 relative">
+                            <!-- PERFECT BLUE ZIRCON PHOTO -->
+                            <img src="https://images.unsplash.com/photo-1599557008688-660c2394e508?q=80&w=800&auto=format&fit=crop" alt="Blue Zircon" class="w-full h-full object-cover card-img brightness-75 group-hover:brightness-100">
+                            <div class="absolute inset-0 card-overlay"></div>
+                            <div class="absolute bottom-8 left-8 right-8 text-center">
+                                <h3 class="text-3xl font-display text-white mb-2 tracking-wider">Zircons</h3>
+                                <p class="text-brand-accent text-xs tracking-[0.2em] uppercase mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0">Blue, White, Earthy</p>
+                                <div class="w-8 h-[1px] bg-brand-accent mx-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rough Stones Card (Spans full width on desktop) -->
+                    <div class="bg-brand-card luxury-card cursor-pointer group md:col-span-2 lg:col-span-3 mt-4" onclick="openCollection('rough', 'Rough & Wholesale', 'Direct from Ratnapura Mines')" data-aos="fade-up" data-aos-delay="400">
+                        <div class="h-80 relative">
+                            <!-- PERFECT UNCUT/ROUGH STONES PHOTO -->
+                            <img src="https://images.unsplash.com/photo-1579730536762-b94f0687d825?q=80&w=1600&auto=format&fit=crop" alt="Rough Stones Crystals" class="w-full h-full object-cover card-img brightness-50 group-hover:brightness-75">
+                            <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(5,9,20,0.9) 0%, rgba(5,9,20,0.2) 100%);"></div>
+                            <div class="absolute inset-y-0 left-8 md:left-16 flex flex-col justify-center">
+                                <h3 class="text-4xl md:text-5xl font-display text-white mb-4 tracking-wider">Rough Stones</h3>
+                                <p class="text-gray-300 font-light max-w-xl mb-6 hidden md:block text-lg">We supply unheated Geuda, rough Spinels, and bulk parcels for international cutters and dealers directly from the mines.</p>
+                                <div class="flex items-center gap-3 text-brand-accent text-xs tracking-[0.2em] uppercase font-bold">
+                                    View Rough Inventory <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-32 bg-brand-dark border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h4 class="text-brand-accent tracking-[0.2em] uppercase mb-4 text-sm font-semibold">Get in Touch</h4>
+                    <h2 class="text-4xl md:text-5xl font-serif text-white mb-4">Direct Inquiries</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto font-light text-lg">Interested in a specific stone from our collection or require a custom rough parcel? Message us directly.</p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-8 max-w-5xl mx-auto">
+                    <!-- Contact Info Card -->
+                    <div class="lg:w-1/3" data-aos="fade-right">
+                        <div class="bg-brand-primary p-10 h-full border border-white/5">
+                            <h3 class="text-3xl font-display text-white mb-10 pb-4 border-b border-brand-accent/30">Asitha Gem</h3>
+                            
+                            <div class="space-y-10">
+                                <div class="flex items-start gap-5">
+                                    <div class="w-10 h-10 rounded-full bg-brand-accent/10 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-solid fa-location-dot text-brand-accent"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-white tracking-widest text-xs uppercase mb-2">Headquarters</h5>
+                                        <p class="text-gray-400 text-sm font-light">Ratnapura (City of Gems)<br>Sri Lanka</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start gap-5">
+                                    <div class="w-10 h-10 rounded-full bg-brand-accent/10 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-brands fa-whatsapp text-brand-accent"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-white tracking-widest text-xs uppercase mb-2">WhatsApp / Call</h5>
+                                        <p class="text-gray-400 text-sm font-light">+94 7X XXX XXXX</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start gap-5">
+                                    <div class="w-10 h-10 rounded-full bg-brand-accent/10 flex items-center justify-center flex-shrink-0">
+                                        <i class="fa-regular fa-envelope text-brand-accent"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-white tracking-widest text-xs uppercase mb-2">Email</h5>
+                                        <p class="text-gray-400 text-sm font-light">inquiry@asithagem.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="lg:w-2/3" data-aos="fade-left">
+                        <form class="bg-brand-primary p-10 border border-white/5" onsubmit="event.preventDefault(); showMessage();">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                                <div>
+                                    <label class="block text-xs uppercase tracking-[0.1em] text-gray-400 mb-3">Name</label>
+                                    <input type="text" required class="w-full bg-brand-dark text-white px-4 py-4 border border-white/10 focus:border-brand-accent outline-none transition-colors font-light">
+                                </div>
+                                <div>
+                                    <label class="block text-xs uppercase tracking-[0.1em] text-gray-400 mb-3">Email / WhatsApp</label>
+                                    <input type="text" required class="w-full bg-brand-dark text-white px-4 py-4 border border-white/10 focus:border-brand-accent outline-none transition-colors font-light">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-8">
+                                <label class="block text-xs uppercase tracking-[0.1em] text-gray-400 mb-3">Interest</label>
+                                <select class="w-full bg-brand-dark text-white px-4 py-4 border border-white/10 focus:border-brand-accent outline-none transition-colors font-light appearance-none cursor-pointer">
+                                    <option value="sapphire">Cut & Polished Sapphires</option>
+                                    <option value="spinel">Cut & Polished Spinels</option>
+                                    <option value="zircon">Cut & Polished Zircons</option>
+                                    <option value="rough">Rough / Wholesale Lots</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-10">
+                                <label class="block text-xs uppercase tracking-[0.1em] text-gray-400 mb-3">Message Details</label>
+                                <textarea rows="5" required id="inquiry-message" class="w-full bg-brand-dark text-white px-4 py-4 border border-white/10 focus:border-brand-accent outline-none transition-colors resize-none font-light"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-brand-accent text-brand-dark py-5 font-bold tracking-[0.2em] uppercase hover:bg-white transition-colors duration-300">
+                                SEND INQUIRY
+                            </button>
+
+                            <!-- Success Message -->
+                            <div id="success-msg" class="hidden mt-6 p-4 border border-brand-accent/50 text-brand-accent text-center bg-brand-accent/10 text-sm tracking-wider">
+                                <i class="fa-solid fa-check-circle mr-2"></i> Message sent successfully. We will contact you soon.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="bg-[#03050a] py-12 border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <p class="font-display text-2xl tracking-[0.2em] mb-6 text-white">
+                    ASITHA <span class="text-brand-accent">GEM</span>
+                </p>
+                <div class="flex justify-center gap-6 mb-8">
+                    <a href="#" class="text-gray-500 hover:text-brand-accent transition-colors"><i class="fa-brands fa-instagram text-xl"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-brand-accent transition-colors"><i class="fa-brands fa-facebook text-xl"></i></a>
+                </div>
+                <p class="text-gray-600 text-sm font-light tracking-wider">&copy; <span id="year"></span> Asitha Gem. Sourced from Earth, Crafted with Passion.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="detail-view" class="view-section view-hidden w-full min-h-screen bg-brand-dark pt-32 pb-24 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Navigation back -->
+            <button onclick="navigateHome()" class="text-gray-400 hover:text-brand-accent transition-colors flex items-center gap-3 mb-12 group w-fit">
+                <i class="fa-solid fa-arrow-left-long group-hover:-translate-x-2 transition-transform"></i> 
+                <span class="text-xs tracking-[0.2em] uppercase font-bold">Back to Collections</span>
+            </button>
+
+            <!-- Dynamic Header -->
+            <div class="border-b border-white/10 pb-10 mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                <div>
+                    <h4 id="detail-subtitle" class="text-brand-accent tracking-[0.2em] uppercase mb-3 text-sm font-semibold">Subtitle</h4>
+                    <h2 id="detail-title" class="text-5xl md:text-6xl font-display font-bold text-white">Category Title</h2>
+                </div>
+                <div class="text-gray-400 font-light">
+                    Showing available inventory
+                </div>
+            </div>
+
+            <!-- Grid for items -->
+            <div id="detail-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Items will be injected here via JavaScript -->
+            </div>
+            
+            <!-- Call to action inside detail view -->
+            <div class="mt-24 p-12 bg-brand-primary border border-white/5 text-center">
+                <h3 class="text-3xl font-serif text-white mb-4">Looking for something specific?</h3>
+                <p class="text-gray-400 mb-8 font-light max-w-2xl mx-auto text-lg">Our inventory rotates frequently. We can source specific carat weights, colors, and cuts upon request.</p>
+                <button onclick="navigateHome(); setTimeout(() => document.getElementById('contact').scrollIntoView(), 400);" class="border border-brand-accent text-brand-accent px-10 py-4 hover:bg-brand-accent hover:text-brand-dark transition-colors tracking-[0.2em] text-sm uppercase font-bold">
+                    Custom Request
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AOS Animation Library JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            offset: 50,
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(5, 9, 20, 0.95)';
+                navbar.style.backdropFilter = 'blur(10px)';
+                navbar.classList.add('border-b', 'border-white/5');
+            } else {
+                navbar.style.backgroundColor = 'transparent';
+                navbar.style.backdropFilter = 'none';
+                navbar.classList.remove('border-b', 'border-white/5');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if(!mobileMenu.classList.contains('hidden')){
+                 navbar.style.backgroundColor = 'rgba(5, 9, 20, 0.98)';
+            }
+        });
+
+        // Form submission
+        function showMessage() {
+            const form = document.querySelector('form');
+            const msgBox = document.getElementById('success-msg');
+            msgBox.classList.remove('hidden');
+            form.reset();
+            setTimeout(() => {
+                msgBox.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Dummy data for stones - using high quality accurate images
+        const gemData = {
+            sapphire: [
+                { id: "S-001", name: "Royal Blue Sapphire", weight: "2.85 ct", type: "Cushion Cut", desc: "Vivid, highly saturated royal blue color. Exceptional clarity, perfect for a center-stone.", img: "https://images.unsplash.com/photo-1611085583191-a3b181a88401?q=80&w=600&auto=format&fit=crop" },
+                { id: "S-002", name: "Padparadscha Sapphire", weight: "1.42 ct", type: "Oval Cut", desc: "Rare sunset-colored blend of pink and orange. Unheated natural beauty.", img: "https://images.unsplash.com/photo-1598560917505-59a3ad559071?q=80&w=600&auto=format&fit=crop" },
+                { id: "S-003", name: "Yellow Sapphire", weight: "3.10 ct", type: "Emerald Cut", desc: "Bright canary yellow with flawless internal structure. Superb brilliance.", img: "https://images.unsplash.com/photo-1588661642106-96b659c403fb?q=80&w=600&auto=format&fit=crop" }
+            ],
+            spinel: [
+                { id: "SP-001", name: "Vivid Red Spinel", weight: "1.75 ct", type: "Cushion Cut", desc: "Intense 'ruby-like' red without any dark undertones. Completely unheated.", img: "https://images.unsplash.com/photo-1601821765780-754fa98637c1?q=80&w=600&auto=format&fit=crop" },
+                { id: "SP-002", name: "Neon Pink Spinel", weight: "2.10 ct", type: "Pear Shape", desc: "Electric pink hue that glows in natural daylight. High clarity.", img: "https://images.unsplash.com/photo-1560943961-c3b88fc7f21f?q=80&w=600&auto=format&fit=crop" }
+            ],
+            zircon: [
+                { id: "Z-001", name: "Electric Blue Zircon", weight: "4.50 ct", type: "Round Brilliant", desc: "Incredible dispersion and fire. Brilliant cyan-blue color.", img: "https://images.unsplash.com/photo-1599557008688-660c2394e508?q=80&w=600&auto=format&fit=crop" },
+                { id: "Z-002", name: "White Zircon", weight: "2.25 ct", type: "Diamond Cut", desc: "Diamond alternative with exceptional double refraction and sparkle.", img: "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=600&auto=format&fit=crop" }
+            ],
+            rough: [
+                { id: "R-001", name: "Geuda Sapphire Rough", weight: "50 Grams", type: "Untreated Rough", desc: "High potential milky Geuda stones ready for traditional heat treatment.", img: "https://images.unsplash.com/photo-1579730536762-b94f0687d825?q=80&w=600&auto=format&fit=crop" },
+                { id: "R-002", name: "Spinel Crystal Matrix", weight: "15 Carats", type: "Specimen / Rough", desc: "Perfectly formed natural red and pink spinel crystals in matrix.", img: "https://images.unsplash.com/photo-1587313840742-997b6e4e09f5?q=80&w=600&auto=format&fit=crop" }
+            ]
+        };
+
+        const mainView = document.getElementById('main-view');
+        const detailView = document.getElementById('detail-view');
+        const grid = document.getElementById('detail-grid');
+
+        function openCollection(categoryKey, title, subtitle) {
+            // Update Text
+            document.getElementById('detail-title').innerText = title;
+            document.getElementById('detail-subtitle').innerText = subtitle;
+
+            // Clear existing grid
+            grid.innerHTML = '';
+
+            // Populate Data
+            const items = gemData[categoryKey];
+            if(items && items.length > 0) {
+                items.forEach((item, index) => {
+                    const cardHTML = `
+                        <div class="bg-brand-primary border border-white/5 hover:border-brand-accent/30 transition-colors duration-500 group opacity-0 translate-y-4" style="animation: fadeUpIn 0.6s ease forwards ${index * 0.15}s">
+                            <div class="h-72 overflow-hidden relative p-3">
+                                <div class="w-full h-full relative overflow-hidden">
+                                    <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 brightness-90">
+                                </div>
+                                <div class="absolute top-6 right-6 bg-brand-dark text-white text-xs font-bold px-3 py-1 border border-white/20 tracking-wider">
+                                    ${item.weight}
+                                </div>
+                            </div>
+                            <div class="p-8">
+                                <p class="text-xs text-brand-accent uppercase tracking-widest mb-2">${item.type}</p>
+                                <h3 class="text-2xl font-serif text-white mb-3">${item.name}</h3>
+                                <p class="text-gray-400 text-sm font-light mb-8 leading-relaxed">${item.desc}</p>
+                                <button onclick="inquireAbout('${item.name}', '${item.id}')" class="text-white text-xs font-bold tracking-[0.15em] uppercase hover:text-brand-accent transition-colors flex items-center gap-2 border-b border-transparent hover:border-brand-accent pb-1">
+                                    Inquire Now <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    grid.innerHTML += cardHTML;
+                });
+            }
+
+            // Switch views
+            mainView.classList.remove('view-active');
+            mainView.classList.add('view-hidden');
+            
+            detailView.classList.remove('view-hidden');
+            detailView.classList.add('view-active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Close mobile menu
+            mobileMenu.classList.add('hidden');
+        }
+
+        function navigateHome() {
+            detailView.classList.remove('view-active');
+            detailView.classList.add('view-hidden');
+            
+            mainView.classList.remove('view-hidden');
+            mainView.classList.add('view-active');
+
+            mobileMenu.classList.add('hidden');
+        }
+
+        function inquireAbout(stoneName, stoneId) {
+            navigateHome();
+            setTimeout(() => {
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                const textarea = document.getElementById('inquiry-message');
+                textarea.value = `Hello, I am interested in the following item:\n\nItem: ${stoneName}\nRef ID: ${stoneId}\n\nPlease let me know the availability and pricing.`;
+                textarea.focus();
+            }, 500); 
+        }
+
+        // Add keyframe for grid animation
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeUpIn {
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
